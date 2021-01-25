@@ -13,7 +13,7 @@ This project will allow an employer to add and update an employee roster with an
 
 ## Installing
 
-1. Go to https://github.com/irina256/Employee-tracker and click on the "Clone or Download" button.
+1. Go to https://github.com/Irina256/Employee-Tracker and click on the "Clone or Download" button.
 2. navigate to employee-tracker-master.
 3. If you don't have the prerequisites installed, type the following:
        * npm install inquirer
