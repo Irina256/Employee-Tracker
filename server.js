@@ -194,6 +194,63 @@ const addEmployee = () => {
     });
   });
 };
+const addRole = () => {
+  db.query(`SELECT * FROM department`, function (err, results, fields) {
+    if (err) {
+      console.log(err);
+      return;
+    }
+
+    let depParams = [];
+    results.forEach((item) => {
+      depParams.push(item.name);
+    });
+
+    inquirer
+      .prompt([
+        {
+          type: "text",
+          name: "title",
+          message: "What is a role title you would like to add: ",
+        },
+        {
+          type: "number",
+          name: "salary",
+          message: "Waht is the salary?",
+        },
+        {
+          type: "list",
+          name: "department",
+          message: "Select the department: ",
+          choices: depParams,
+        },
+      ])
+      .then((data) => {
+        let department_id;
+
+        for (let i = 0; i < depParams.length; i++) {
+          if (depParams[i] === data.department) {
+            department_id = i + 1;
+          }
+        }
+
+        db.query(
+          `INSERT INTO role (title, salary, department_id)
+                          VALUES(?,?,?)`,
+          [data.title, data.salary, department_id],
+          function (err, results, fields) {
+            if (err) {
+              console.log(err.message);
+              return;
+            }
+
+            console.log("Role added!");
+            promptUser();
+          }
+        );
+      });
+  });
+};
 // Inital Prompt - Main Menu
 function promptUser() {
   return (
@@ -235,6 +292,10 @@ function promptUser() {
           }
           case "Add an employee": {
             addEmployee();
+            break;
+          }
+          case "Add a role": {
+            addRole();
             break;
           }
         }
